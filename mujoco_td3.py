@@ -237,7 +237,7 @@ class DDPGagent:
                     df = pd.DataFrame({'Episode': episodes, 'Reward': tot_rewards, 'Duration': tot_steps})
                     df.to_csv(path, encoding='utf-8')
                     break
-            if ep_reward >= 9000:
+            if ep_reward >= 9000:    ##change this value depending on the env max reward per episode
                 count += 1
                 print(count)
             else:
