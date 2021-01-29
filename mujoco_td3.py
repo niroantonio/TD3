@@ -19,9 +19,9 @@ import math
 torch.set_default_tensor_type('torch.FloatTensor')
 
 #name = 'Hopper-v2'
-#name = 'InvertedDoublePendulum-v2'    #[300, 400]
+#name = 'InvertedDoublePendulum-v2'    
 #name = 'Pendulum-v0'
-name = 'HalfCheetah-v3'             #[64, 32]
+name = 'HalfCheetah-v3'          
 #name = 'InvertedPendulum-v2'
 #name = 'Ant-v2'
 #name = 'Humanoid-v2'
@@ -38,39 +38,6 @@ Experience = namedtuple(
     'Experience',
     ('state', 'action', 'next_obs', 'reward', 'done')
 )
-
-
-class Policy(nn.Module):
-
-    def __init__(self, num_inputs, num_outputs):
-        super(Policy, self).__init__()
-        self.fc1 = nn.Linear(num_inputs, 32)
-        self.fc2 = nn.Linear(32, 32)
-        self.out = nn.Linear(32, num_outputs)
-
-
-    def forward(self, states):
-        x = F.relu(self.fc1(states))
-        x = F.relu(self.fc2(x))
-        x = torch.tanh(self.out(x))
-        return x
-
-
-class QF(nn.Module):
-
-    def __init__(self, obs_space, num_actions):
-        super(QF, self).__init__()
-        self.fc1 = nn.Linear(obs_space, 64 + num_actions)
-        self.fc2 = nn.Linear(64 + num_actions + 1, 32)
-        self.out = nn.Linear(32, num_actions)
-
-    def forward(self, state, action):
-        #state_action = torch.cat([state, action], 1)
-        x = F.relu(self.fc1(state))
-        x = torch.cat([x, action], 1)
-        x = F.relu(self.fc2(x))
-        x = self.out(x)
-        return x
 
 
 class ReplayBuffer:
@@ -287,9 +254,6 @@ class DDPGagent:
 
 
 def main():
-    # policy = Policy(num_inputs=env.observation_space.shape[0], num_outputs=env.action_space.shape[0])
-    # qf1 = QF(obs_space=env.observation_space.shape[0], num_actions=env.action_space.shape[0])
-    # qf2 = QF(obs_space=env.observation_space.shape[0], num_actions=env.action_space.shape[0])
 
     qf1 = ContinuousMLPQFunction(env_spec=env,
                                 hidden_sizes=[64, 32],
