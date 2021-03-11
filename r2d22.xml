@@ -1,0 +1,63 @@
+<mujoco model="r2d2">
+  <compiler angle="degree" coordinate="global" inertiafromgeom="true" />
+  <option gravity="0 0 -9.81" integrator="RK4" timestep="0.05" />
+  <size nstack="3000" />
+   <worldbody>
+	<light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1" />
+    <geom conaffinity="1" condim="3" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="20 20 .125" type="plane" />
+      <body name="torso">
+		  <joint type="free" />
+         <geom fromto="0 0 0.10 0 0 0.35" rgba=".9 .9 .9 10" size=".1 .3" type="cylinder" />
+         <geom fromto="0 0 0.05 0 0 0.10" rgba=".1 .1 1 1" size=".101 .05" type="cylinder" />
+         <geom fromto="0.052 0 0.2 0.052 0 0.3" rgba=".1 .1 1 1" size=".05 .1" type="cylinder" />
+         <body name="head">
+            <joint armature="1" name="neck" pos="0 0 0.35" type="hinge" />
+         	<geom pos="0 0 .35" rgba=".1 .1 1 1" size=".1" type="sphere" />
+         	<geom pos="0.08 0 0.4" size=".02 .02 .02" type="box" />
+         </body>
+         <body name="legs"> 
+         	<geom pos="0 -0.11 .17" rgba=".9 .9 .9 10" size="0.04 0.01 0.13" type="box" />
+			 <geom pos="0 -0.115 .17" rgba=".1 .1 1 1" size="0.01 0.01 0.135" type="box" />
+			 <geom pos="0 0.115 .17" rgba=".1 .1 1 1" size="0.01 0.01 0.135" type="box" />
+         	<geom pos="0 0.11 .17" rgba=".9 .9 .9 10" size="0.04 0.01 0.13" type="box" />
+         	<body name="feet"> 
+         		<geom pos="0 -.11 0.022" rgba=".9 .9 .9 10" size="0.06 0.02 0.018" type="box" />
+         		<geom pos="0 .11 0.022" rgba=".9 .9 .9 10" size="0.06 0.02 0.018" type="box" />
+         		<body name="front_right_wheel">
+         			<joint armature="1" axis="0 1 0" name="frw_joint" pos="0.04 -.11 0.01" type="hinge" />
+         			<geom name="A" pos="0.04 -.11 0.01" quat="0.707123 0.70709 0 0" size=".03 .022" type="cylinder" />
+         	    </body>
+         	    <body name="front_left_wheel">
+         			<joint armature="1" axis="0 1 0" name="flw_joint" pos="0.04 .11 0.01" type="hinge" />
+         			<geom name="B" pos="0.04 .11 0.01" quat="0.707123 -0.70709 0 0" size=".03 .022" type="cylinder" />
+         		</body>
+         		<body name="back_left_wheel"> 
+         			<joint armature="1" axis="0 1 0" name="brw_joint" pos="-0.04 -.11 0.01" type="hinge" />
+         			<geom name="C" pos="-0.04 -.11 0.01" quat="0.707123 0.70709 0 0" size=".03 .022" type="cylinder" />
+         		</body>
+         		<body name="back_right_wheel">
+         			<joint armature="1" axis="0 1 0" name="blw_joint" pos="-0.04 .11 0.01" type="hinge" />
+
+         			<geom name="D" pos="-0.04 .11 0.01" quat="0.707123 -0.70709 0 0" size=".03 .022" type="cylinder" />
+         		</body>
+         	</body>
+         </body>
+      </body>
+<geom name="target" pos="0.8 0.6 0" rgba="1 .1 .1 .1" size="0.04 0.000001" type="cylinder" />
+	</worldbody>
+       <asset>
+        <texture builtin="gradient" height="100" rgb1=".4 .5 .6" rgb2="0 0 0" type="skybox" width="100" />
+        <texture builtin="flat" height="1278" mark="cross" markrgb="1 1 1" name="texgeom" random="0.01" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" type="cube" width="127" />
+        <texture builtin="checker" height="100" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="100" />
+        <material name="MatPlane" reflectance="0.5" shininess="1" specular="1" texrepeat="60 60" texture="texplane" />
+        <material name="geom" texture="texgeom" texuniform="true" />
+	   </asset>
+
+	<actuator>
+		<motor ctrlrange="-1 1" gear="1" joint="frw_joint" name="frw_motor" />
+		<motor ctrlrange="-1 1" gear="1" joint="flw_joint" name="flw_motor" />
+	</actuator>
+		
+		
+ 
+</mujoco>
